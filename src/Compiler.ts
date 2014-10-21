@@ -14,12 +14,6 @@ class Compiler {
 
   }
 
-  public initModules():void {
-    this.modules = fs.readdirSync(this.dir).map((moduleName:string):Module => {
-      return new Module(moduleName, path.join(this.dir, moduleName));
-    });
-  }
-
   public solveDependencies():void {
     var resolver:DependencyResolver = new DependencyResolver();
 

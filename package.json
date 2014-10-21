@@ -1,5 +1,5 @@
 {
-  "name": "fcc",
+  "name": "grom",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,7 @@
   "author": "Szymon Wygnański <s@finalclass.net> (http://finalclass.net/)",
   "license": "ISC",
   "dependencies": {
-    "dependency-resolver": "*"
+    "dependency-resolver": "*",
+    "globule": "~0.2.0"
   }
 }

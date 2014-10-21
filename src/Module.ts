@@ -1,39 +1,31 @@
 ///<reference path="typings/tsd.d.ts"/>
 
-import fs = require('fs');
 import path = require('path');
-
-interface IModuleConfig {
-  dependencies:{[id:string]:string};
-}
+import ModuleFiles = require('./ModuleFiles');
+import ModuleConfig = require('./ModuleConfig');
 
 class Module {
 
-  private static GROM_FILE_NAME:string = 'grom.json';
+  private static CONFIG_FILE_NAME:string = 'grom.json';
 
-  private config:IModuleConfig;
+  private config:ModuleConfig;
+  private _files:ModuleFiles;
 
-  constructor(public name:string, private dir:string) {
-    this.initConfig();
+  constructor(public name:string, private _dir:string) {
+    this._files = new ModuleFiles(this.dir, this);
+    this.config = new ModuleConfig(path.join(this.dir, Module.CONFIG_FILE_NAME));
+  }
+
+  public get dir():string {
+    return this._dir;
   }
 
   public get dependencies():string[] {
     return Object.keys(this.config.dependencies);
   }
 
-  private static getRawConfigFile():IModuleConfig {
-    return {
-      dependencies: {}
-    };
-  }
-
-  private initConfig():void {
-    var gromFilePath:string = path.join(this.dir, Module.GROM_FILE_NAME);
-    if (fs.existsSync(gromFilePath)) {
-      this.config = JSON.parse(fs.readFileSync(gromFilePath).toString());
-    } else {
-      this.config = Module.getRawConfigFile();
-    }
+  public get files():ModuleFiles {
+    return this._files;
   }
 
 }
